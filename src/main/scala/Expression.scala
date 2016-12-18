@@ -1,11 +1,3 @@
-case class Const(value: Int) extends Expression
-
-case class Var(name: String) extends Expression
-
-case class Add(left: Expression, right: Expression) extends Expression
-
-case class Mul(left: Expression, right: Expression) extends Expression
-
 sealed trait Expression {
   def evaluate(variables: Map[String, Int]): Int = this match {
     case Mul(left, right) => left.evaluate(variables) * right.evaluate(variables)
@@ -21,7 +13,13 @@ sealed trait Expression {
     case Var(name) => name
   }
 
-  def simplifyStep: Expression = this match {
+  def simplify: Expression = this match {
+    case Mul(left, right) => Mul(left.simplify, right.simplify).simplifyStep
+    case Add(left, right) => Add(left.simplify, right.simplify).simplifyStep
+    case _ => this
+  }
+
+  protected def simplifyStep: Expression = this match {
     case Add(Const(a), Const(b)) => Const(a + b)
     case Mul(Const(a), Const(b)) => Const(a * b)
     case Mul(expr, Const(1)) => expr
@@ -32,10 +30,12 @@ sealed trait Expression {
     case Mul(Const(0), _) => Const(0)
     case _ => this
   }
-
-  def simplify: Expression = this match {
-    case Mul(left, right) => Mul(left.simplify, right.simplify).simplifyStep
-    case Add(left, right) => Add(left.simplify, right.simplify).simplifyStep
-    case _ => this
-  }
 }
+
+case class Const(value: Int) extends Expression
+
+case class Var(name: String) extends Expression
+
+case class Add(left: Expression, right: Expression) extends Expression
+
+case class Mul(left: Expression, right: Expression) extends Expression
