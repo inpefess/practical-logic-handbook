@@ -4,7 +4,6 @@ object TokenType extends Enumeration {
   type TokenType = Value
   val Space, Punctuation, Symbolic, Numeric, Alphanumeric = Value
 
-  @throws[UnknownCharacterException]
   def charType(c: Char): TokenType =
     // here the order of if's matters
     if(" \t\n\r".contains(c)) Space else
