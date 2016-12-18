@@ -2,7 +2,7 @@ class UnknownCharacterException(message: String) extends RuntimeException
 
 object TokenType extends Enumeration {
   type TokenType = Value
-  val Space, Punctuation, Symbolic, Numeric, Alphanumeric, Other = Value
+  val Space, Punctuation, Symbolic, Numeric, Alphanumeric = Value
 
   @throws[UnknownCharacterException]
   def charType(c: Char): TokenType =
