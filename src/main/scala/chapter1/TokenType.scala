@@ -1,3 +1,5 @@
+package chapter1
+
 class UnknownCharacterException(message: String) extends RuntimeException
 
 object TokenType extends Enumeration {

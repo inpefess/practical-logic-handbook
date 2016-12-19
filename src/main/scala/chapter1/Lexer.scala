@@ -1,4 +1,6 @@
-import TokenType._
+package chapter1
+
+import chapter1.TokenType.{TokenType, charType, _}
 
 object Lexer {
   def toTokens(line: String): Vector[String] =

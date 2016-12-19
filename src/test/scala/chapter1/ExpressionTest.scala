@@ -1,3 +1,5 @@
+package chapter1
+
 import org.scalatest.FunSuite
 
 class ExpressionTest extends FunSuite {

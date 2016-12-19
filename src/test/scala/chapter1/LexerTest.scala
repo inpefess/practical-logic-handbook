@@ -1,4 +1,5 @@
-import TokenType._
+package chapter1
+
 import org.scalatest.{BeforeAndAfter, FunSuite}
 
 class LexerTest extends FunSuite with BeforeAndAfter {

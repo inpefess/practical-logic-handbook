@@ -1,3 +1,5 @@
+package chapter1
+
 object PrettyPrinter {
   def prettyPrint(expression: Expression, precedenceLevel: Int): String = expression match {
     case Mul(left, right) =>

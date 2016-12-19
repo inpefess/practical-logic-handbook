@@ -1,3 +1,5 @@
+package chapter1
+
 class SyntaxErrorException(message: String) extends RuntimeException
 
 object Parser {

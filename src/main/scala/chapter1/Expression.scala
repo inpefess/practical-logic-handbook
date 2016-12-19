@@ -1,3 +1,5 @@
+package chapter1
+
 sealed trait Expression {
   def evaluate(variables: Map[String, Int]): Int = this match {
     case Mul(left, right) => left.evaluate(variables) * right.evaluate(variables)
