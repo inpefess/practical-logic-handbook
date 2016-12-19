@@ -1,4 +1,4 @@
-name := "logic"
+name := "practical-logic-handbook"
 
 version := "1.0"
 
