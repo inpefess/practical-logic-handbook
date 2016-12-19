@@ -6,12 +6,7 @@ sealed trait Expression {
     case Var(name) => variables(name)
   }
 
-  def mkString: String = this match {
-    case Mul(left, right) => "(" + left.mkString + " * " + right.mkString + ")"
-    case Add(left, right) => "(" + left.mkString + " + " + right.mkString + ")"
-    case Const(value) => value.toString
-    case Var(name) => name
-  }
+  def mkString: String = PrettyPrinter.prettyPrint(this, 1)
 
   def simplify: Expression = this match {
     case Mul(left, right) => Mul(left.simplify, right.simplify).simplifyStep
