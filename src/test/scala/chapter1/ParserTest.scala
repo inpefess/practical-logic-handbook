@@ -22,5 +22,11 @@ class ParserTest extends FunSuite {
     println(wrongInput + " has wrong syntax")
     println("OK")
     println
+    val concreteSyntax = "x y+2(z+1)"
+    val concreteResult = Parser.parse(concreteSyntax)
+    assert(concreteResult == Add(Mul(Var("x"),Var("y")),Mul(Const(2),Add(Var("z"),Const(1)))))
+    println(concreteSyntax + " is " + concreteResult)
+    println("OK")
+    println
   }
 }
