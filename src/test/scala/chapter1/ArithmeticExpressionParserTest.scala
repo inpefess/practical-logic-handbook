@@ -27,4 +27,15 @@ class ArithmeticExpressionParserTest extends FunSuite {
     assert(ArithmeticExpressionParser.parse("x ^ y * z") == Mul(Pow(Var("x"), Var("y")), Var("z")))
     assert(ArithmeticExpressionParser.parse("x + y ^ z") == Add(Var("x"), Pow(Var("y"), Var("z"))))
   }
+  test("parse subtraction") {
+    assert(ArithmeticExpressionParser.parse("x - y - z") == Sub(Sub(Var("x"), Var("y")), Var("z")))
+    assert(ArithmeticExpressionParser.parse("(x - y) - z") == Sub(Sub(Var("x"), Var("y")), Var("z")))
+    assert(ArithmeticExpressionParser.parse("x - (y - z)") == Sub(Var("x"), Sub(Var("y"), Var("z"))))
+    assert(ArithmeticExpressionParser.parse("x - y + z") == Add(Sub(Var("x"), Var("y")), Var("z")))
+    assert(ArithmeticExpressionParser.parse("(x - y) + z") == Add(Sub(Var("x"), Var("y")), Var("z")))
+    assert(ArithmeticExpressionParser.parse("x - (y + z)") == Sub(Var("x"), Add(Var("y"), Var("z"))))
+    assert(ArithmeticExpressionParser.parse("x + y - z") == Add(Var("x"), Sub(Var("y"), Var("z"))))
+    assert(ArithmeticExpressionParser.parse("(x + y) - z") == Sub(Add(Var("x"), Var("y")), Var("z")))
+    assert(ArithmeticExpressionParser.parse("x + (y - z)") == Add(Var("x"), Sub(Var("y"), Var("z"))))
+  }
 }

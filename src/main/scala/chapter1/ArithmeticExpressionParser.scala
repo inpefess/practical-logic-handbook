@@ -1,5 +1,6 @@
 package chapter1
-import util.Try
+
+import scala.util.Try
 
 object ArithmeticExpressionParser {
   def parse(formula: String): ArithmeticExpression = {
@@ -15,6 +16,19 @@ object ArithmeticExpressionParser {
       case (left, "+" +: right) =>
         val parsedRight = parseSum(right)
         (Add(left, parsedRight._1), parsedRight._2)
+      case (subtrahend, "-" +: minuend) =>
+        val parsedMinuend = parseProduct(minuend)
+        parsedMinuend match {
+          case (nextSubtrahend, "-" +: nextMinuend) =>
+            val parsedNextMinuend = parseSum(nextMinuend)
+            (Sub(Sub(subtrahend, nextSubtrahend), parsedNextMinuend._1), parsedNextMinuend._2)
+          case (left, "+" +: right) =>
+            val parsedRight = parseSum(right)
+            (Add(Sub(subtrahend, left), parsedRight._1), parsedRight._2)
+          case _ =>
+            val parsedRight = parseSum(minuend)
+            (Sub(subtrahend, parsedRight._1), parsedRight._2)
+        }
       case (left, right) => (left, right)
     }
 

@@ -16,4 +16,8 @@ class ArithmeticExpressionTest extends FunSuite {
     val expression = Pow(Add(Var("x"), Const(0)), Const(1))
     assert(expression.simplify == Var("x"))
   }
+  test("simplify subtraction") {
+    assert(Sub(Sub(Var("x"), Var("x")), Const(0)).simplify == Const(0))
+    assert(Sub(Var("x"), Sub(Var("x"), Const(0))).simplify == Const(0))
+  }
 }
