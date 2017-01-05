@@ -36,6 +36,7 @@ sealed trait ArithmeticExpression {
     case Mul(Const(0), _) => Const(0)
     case Mul(expr, Const(1)) => expr
     case Mul(Const(1), expr) => expr
+    case Pow(Const(a), Const(b)) => Const(math.pow(a.toDouble, b.toDouble).toInt)
     case Pow(_, Const(0)) => Const(1)
     case Pow(Const(0), _) => Const(0)
     case Pow(expr, Const(1)) => expr

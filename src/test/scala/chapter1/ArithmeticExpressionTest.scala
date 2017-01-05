@@ -12,6 +12,8 @@ class ArithmeticExpressionTest extends FunSuite {
   }
   test("simplify power") {
     assert(Pow(Add(Var("x"), Const(0)), Const(1)).simplify == Var("x"))
+    assert(Pow(Const(1), Var("x")).simplify == Const(1))
+    assert(Pow(Const(0), Var("x")).simplify == Const(0))
   }
   test("simplify subtraction") {
     assert(Add(Sub(Sub(Var("x"), Var("x")), Const(0)), Var("y")).simplify == Var("y"))
