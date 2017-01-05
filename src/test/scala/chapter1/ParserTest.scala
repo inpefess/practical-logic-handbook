@@ -22,4 +22,9 @@ class ParserTest extends FunSuite {
       Add(Mul(Var("x"),Var("y")),Mul(Const(2),Add(Var("z"),Const(1))))
     )
   }
+  test("parse power") {
+    assert(Parser.parse("x ^ y ^ z") == Parser.parse("x ^ (y ^ z)"))
+    assert(Parser.parse("x ^ y * z") == Mul(Pow(Var("x"), Var("y")), Var("z")))
+    assert(Parser.parse("x + y ^ z") == Add(Var("x"), Pow(Var("y"), Var("z"))))
+  }
 }

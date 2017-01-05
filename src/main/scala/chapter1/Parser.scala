@@ -19,7 +19,7 @@ object Parser {
     }
 
   private def parseProduct(tokens: Vector[String]): (Expression, Vector[String]) =
-    parseAtom(tokens) match {
+    parsePower(tokens) match {
       case (left, "*" +: right) =>
         val parsedRight = parseProduct(right)
         (Mul(left, parsedRight._1), parsedRight._2)
@@ -29,6 +29,14 @@ object Parser {
           (Mul(left, parsedRight.get._1), parsedRight.get._2)
         else
           (left, right)
+    }
+
+  private def parsePower(tokens: Vector[String]): (Expression, Vector[String]) =
+    parseAtom(tokens) match {
+      case (left, "^" +: right) =>
+        val parsedRight = parsePower(right)
+        (Pow(left, parsedRight._1), parsedRight._2)
+      case (left, right) => (left, right)
     }
 
   private def parseAtom(tokens: Vector[String]): (Expression, Vector[String]) =
