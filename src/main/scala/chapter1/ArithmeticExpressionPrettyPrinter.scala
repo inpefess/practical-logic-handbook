@@ -4,8 +4,8 @@ object ArithmeticExpressionPrettyPrinter {
   def prettyPrint(expression: ArithmeticExpression, precedenceLevel: Int): String = expression match {
     case Pow(base, exponent) =>
       if (precedenceLevel <= 3)
-        prettyPrint(base, 3) + " ^ " + prettyPrint(exponent, 3)
-      else "(" + prettyPrint(base, 3) + " ^ " + prettyPrint(exponent, 3) + ")"
+        prettyPrint(base, 4) + " ^ " + prettyPrint(exponent, 3)
+      else "(" + prettyPrint(base, 4) + " ^ " + prettyPrint(exponent, 3) + ")"
     case Mul(left, right) =>
       if (precedenceLevel <= 2)
         prettyPrint(left, 2) + " * " + prettyPrint(right, 2)
