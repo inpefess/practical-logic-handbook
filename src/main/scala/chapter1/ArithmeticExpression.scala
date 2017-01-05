@@ -1,6 +1,6 @@
 package chapter1
 
-sealed trait Expression {
+sealed trait ArithmeticExpression {
   def evaluate(variables: Map[String, Int]): Int = this match {
     case Mul(left, right) => left.evaluate(variables) * right.evaluate(variables)
     case Add(left, right) => left.evaluate(variables) + right.evaluate(variables)
@@ -9,16 +9,16 @@ sealed trait Expression {
     case Var(name) => variables(name)
   }
 
-  def mkString: String = PrettyPrinter.prettyPrint(this, 1)
+  def mkString: String = ArithmeticExpressionPrettyPrinter.prettyPrint(this, 1)
 
-  def simplify: Expression = this match {
+  def simplify: ArithmeticExpression = this match {
     case Mul(left, right) => Mul(left.simplify, right.simplify).simplifyStep
     case Add(left, right) => Add(left.simplify, right.simplify).simplifyStep
     case Pow(base, exponent) => Pow(base.simplify, exponent.simplify).simplifyStep
     case _ => this
   }
 
-  protected def simplifyStep: Expression = this match {
+  protected def simplifyStep: ArithmeticExpression = this match {
     case Add(Const(a), Const(b)) => Const(a + b)
     case Mul(Const(a), Const(b)) => Const(a * b)
     case Mul(expr, Const(1)) => expr
@@ -35,12 +35,12 @@ sealed trait Expression {
   }
 }
 
-case class Const(value: Int) extends Expression
+case class Const(value: Int) extends ArithmeticExpression
 
-case class Var(name: String) extends Expression
+case class Var(name: String) extends ArithmeticExpression
 
-case class Add(left: Expression, right: Expression) extends Expression
+case class Add(left: ArithmeticExpression, right: ArithmeticExpression) extends ArithmeticExpression
 
-case class Mul(left: Expression, right: Expression) extends Expression
+case class Mul(left: ArithmeticExpression, right: ArithmeticExpression) extends ArithmeticExpression
 
-case class Pow(base: Expression, exponent: Expression) extends Expression
+case class Pow(base: ArithmeticExpression, exponent: ArithmeticExpression) extends ArithmeticExpression

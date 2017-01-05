@@ -2,7 +2,7 @@ package chapter1
 
 import org.scalatest.FunSuite
 
-class ExpressionTest extends FunSuite {
+class ArithmeticExpressionTest extends FunSuite {
   test("evaluate") {
     val variables = Map("x" -> 3, "y" -> 4)
     val expression = Pow(Add(Mul(Const(2), Var("x")), Var("y")), Const(3))

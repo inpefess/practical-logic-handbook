@@ -1,8 +1,8 @@
 package chapter1
 import util.Try
 
-object Parser {
-  def parse(formula: String): Expression = {
+object ArithmeticExpressionParser {
+  def parse(formula: String): ArithmeticExpression = {
     val (parsed, not_parsed) = parseSum(Lexer.toTokens(formula))
     not_parsed match {
       case Vector() => parsed
@@ -10,7 +10,7 @@ object Parser {
     }
   }
 
-  private def parseSum(tokens: Vector[String]): (Expression, Vector[String]) =
+  private def parseSum(tokens: Vector[String]): (ArithmeticExpression, Vector[String]) =
     parseProduct(tokens) match {
       case (left, "+" +: right) =>
         val parsedRight = parseSum(right)
@@ -18,7 +18,7 @@ object Parser {
       case (left, right) => (left, right)
     }
 
-  private def parseProduct(tokens: Vector[String]): (Expression, Vector[String]) =
+  private def parseProduct(tokens: Vector[String]): (ArithmeticExpression, Vector[String]) =
     parsePower(tokens) match {
       case (left, "*" +: right) =>
         val parsedRight = parseProduct(right)
@@ -31,7 +31,7 @@ object Parser {
           (left, right)
     }
 
-  private def parsePower(tokens: Vector[String]): (Expression, Vector[String]) =
+  private def parsePower(tokens: Vector[String]): (ArithmeticExpression, Vector[String]) =
     parseAtom(tokens) match {
       case (left, "^" +: right) =>
         val parsedRight = parsePower(right)
@@ -39,7 +39,7 @@ object Parser {
       case (left, right) => (left, right)
     }
 
-  private def parseAtom(tokens: Vector[String]): (Expression, Vector[String]) =
+  private def parseAtom(tokens: Vector[String]): (ArithmeticExpression, Vector[String]) =
     tokens match {
       case Vector() => throw SyntaxErrorException("Unexpected end of input")
       case "(" +: right =>

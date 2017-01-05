@@ -1,7 +1,7 @@
 package chapter1
 
-object PrettyPrinter {
-  def prettyPrint(expression: Expression, precedenceLevel: Int): String = expression match {
+object ArithmeticExpressionPrettyPrinter {
+  def prettyPrint(expression: ArithmeticExpression, precedenceLevel: Int): String = expression match {
     case Pow(base, exponent) =>
       if (precedenceLevel <= 3)
         prettyPrint(base, 3) + " ^ " + prettyPrint(exponent, 3)
