@@ -15,10 +15,6 @@ class LexerTest extends FunSuite with BeforeAndAfter {
         Vector("if", "(", "*", "p1", "--", "==", "*", "p2", "++", ")", "then", "f", "(", ")", "else", "g", "(", ")")
     )
   }
-  test("formula with Cyrillic character") {
-    // the last character is Cyrillic
-    assertThrows[UnknownCharacterException](Lexer.toTokens("x + у"))
-  }
   test("empty line - no terms") {
     assert(Lexer.toTokens("") == Vector())
   }

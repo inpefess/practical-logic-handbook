@@ -2,6 +2,8 @@ package chapter1
 
 import org.scalatest.FunSuite
 
+import scala.util.{Failure, Success, Try}
+
 class TokenTypeTest extends FunSuite {
   test("testCharType") {
     assert(TokenType.charType('+') == TokenType.Symbolic)
@@ -10,6 +12,9 @@ class TokenTypeTest extends FunSuite {
     assert(TokenType.charType(' ') == TokenType.Space)
     assert(TokenType.charType(',') == TokenType.Punctuation)
     // this character is Cyrillic
-    assertThrows[UnknownCharacterException](TokenType.charType('с'))
+    Try(TokenType.charType('с')) match {
+      case Success(_) => fail()
+      case Failure(e) => assert(e.getMessage == "Unknown character: с")
+    }
   }
 }
