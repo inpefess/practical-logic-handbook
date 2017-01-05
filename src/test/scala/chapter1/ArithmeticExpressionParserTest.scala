@@ -2,6 +2,8 @@ package chapter1
 
 import org.scalatest.FunSuite
 
+import scala.util.{Failure, Success, Try}
+
 class ArithmeticExpressionParserTest extends FunSuite {
   test("parse simple sum") {
     assert(ArithmeticExpressionParser.parse("x + 1") == Add(Var("x"), Const(1)))
@@ -37,5 +39,11 @@ class ArithmeticExpressionParserTest extends FunSuite {
     assert(ArithmeticExpressionParser.parse("x + y - z") == Add(Var("x"), Sub(Var("y"), Var("z"))))
     assert(ArithmeticExpressionParser.parse("(x + y) - z") == Sub(Add(Var("x"), Var("y")), Var("z")))
     assert(ArithmeticExpressionParser.parse("x + (y - z)") == Add(Var("x"), Sub(Var("y"), Var("z"))))
+  }
+  test("no closing parenthesis") {
+    Try(ArithmeticExpressionParser.parse("(x - y -z")) match {
+      case Success(_) => fail()
+      case Failure(e) => assert(e.getMessage == "No closing parenthesis")
+    }
   }
 }

@@ -5,7 +5,7 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 class LexerTest extends FunSuite with BeforeAndAfter {
   test("tokenize simple math") {
     assert(
-      Lexer.toTokens("2*((var_1 + x’) + 11)") ==
+      Lexer.toTokens("2*((var_1 + x’) + 11) ") ==
       Vector("2", "*", "(", "(", "var_1", "+", "x’", ")", "+", "11", ")")
     )
   }
@@ -17,7 +17,9 @@ class LexerTest extends FunSuite with BeforeAndAfter {
   }
   test("formula with Cyrillic character") {
     // the last character is Cyrillic
-    val unknownCharacter = "x + у"
-    assertThrows[UnknownCharacterException](Lexer.toTokens(unknownCharacter))
+    assertThrows[UnknownCharacterException](Lexer.toTokens("x + у"))
+  }
+  test("empty line - no terms") {
+    assert(Lexer.toTokens("") == Vector())
   }
 }
