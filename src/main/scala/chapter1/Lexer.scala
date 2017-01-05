@@ -1,6 +1,8 @@
 package chapter1
 
-import chapter1.TokenType.{TokenType, charType, _}
+import chapter1.TokenType.{Alphanumeric, Numeric, Punctuation, Space, TokenType, charType}
+
+import scala.annotation.tailrec
 
 object Lexer {
   def toTokens(line: String): Vector[String] =
@@ -11,6 +13,7 @@ object Lexer {
       toTokensRec(charList.tail, Vector(), firstChar.toString, charType(firstChar))
     }
 
+  @tailrec
   private def toTokensRec(line: List[Char], acc: Vector[String], token: String, tokenType: TokenType): Vector[String] =
     line match {
       case head :: tail =>
