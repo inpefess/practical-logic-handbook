@@ -17,7 +17,7 @@ object ArithmeticExpressionPrettyPrinter {
     case Sub(subtrahend, minuend) =>
       if (precedenceLevel <= 1)
         prettyPrint(subtrahend, 1) + " - " + prettyPrint(minuend, 2)
-      else "(" + prettyPrint(subtrahend, 1) + " - " + prettyPrint(minuend, 1) + ")"
+      else "(" + prettyPrint(subtrahend, 1) + " - " + prettyPrint(minuend, 2) + ")"
     case Const(value) => value.toString
     case Var(name) => name
   }
