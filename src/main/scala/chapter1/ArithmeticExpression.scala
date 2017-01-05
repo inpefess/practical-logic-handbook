@@ -1,13 +1,21 @@
 package chapter1
 
 sealed trait ArithmeticExpression {
-  def evaluate(variables: Map[String, Int]): Int = this match {
-    case Mul(left, right) => left.evaluate(variables) * right.evaluate(variables)
-    case Add(left, right) => left.evaluate(variables) + right.evaluate(variables)
-    case Pow(base, exponent) => math.pow(base.evaluate(variables).toDouble, exponent.evaluate(variables).toDouble).toInt
-    case Sub(subtrahend, minuend) => subtrahend.evaluate(variables) - minuend.evaluate(variables)
-    case Const(value) => value
-    case Var(name) => variables(name)
+  def partlyEvaluate(variables: Map[String, Int]): ArithmeticExpression =
+    substituteVariables(variables).simplify
+
+  def substituteVariables(variables: Map[String, Int]): ArithmeticExpression =
+    this match {
+      case Mul(a, b) => Mul(a.substituteVariables(variables), b.substituteVariables(variables))
+      case Add(a, b) => Add(a.substituteVariables(variables), b.substituteVariables(variables))
+      case Pow(a, b) => Pow(a.substituteVariables(variables), b.substituteVariables(variables))
+      case Sub(a, b) => Sub(a.substituteVariables(variables), b.substituteVariables(variables))
+      case Var(name) =>
+        variables.get(name) match {
+          case Some(const) => Const(const)
+          case None => Var(name)
+        }
+      case Const(const) => Const(const)
   }
 
   def mkString: String = ArithmeticExpressionPrettyPrinter.prettyPrint(this, 1)

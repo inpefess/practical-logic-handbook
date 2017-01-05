@@ -3,9 +3,9 @@ package chapter1
 import org.scalatest.FunSuite
 
 class ArithmeticExpressionTest extends FunSuite {
-  test("evaluate") {
-    assert(Sub(Pow(Add(Mul(Const(2), Var("x")), Var("y")), Const(3)), Var("y"))
-      .evaluate(Map("x" -> 3, "y" -> 4)) == 996)
+  test("partlyEvaluate") {
+    assert(Sub(Pow(Add(Mul(Const(2), Var("x")), Var("y")), Const(3)), Var("z"))
+      .partlyEvaluate(Map("x" -> 3, "y" -> 4)) == Sub(Const(1000), Var("z")))
   }
   test("simplify") {
     assert(Add(Mul(Add(Mul(Const(0), Var("x")), Const(1)), Const(3)), Const(12)).simplify == Const(15))
