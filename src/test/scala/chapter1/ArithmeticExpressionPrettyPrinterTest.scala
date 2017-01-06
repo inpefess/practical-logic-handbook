@@ -23,4 +23,10 @@ class ArithmeticExpressionPrettyPrinterTest extends FunSuite {
         , 1) == "(x + 2) ^ (3 ^ 6) ^ x - (2 + z + 4 - y)"
     )
   }
+  test("PrettyPrint negation") {
+    assert(
+      ArithmeticExpressionPrettyPrinter.prettyPrint(
+        Sub(Var("x"), Neg(Neg(Var("x")))), 1) == "x - -(-x)"
+    )
+  }
 }

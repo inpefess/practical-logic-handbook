@@ -1,7 +1,5 @@
 package chapter1
 
-import scala.util.Try
-
 object ArithmeticExpressionParser {
   def parse(formula: String): ArithmeticExpression = {
     val (parsed, not_parsed) = parseSum(Lexer.toTokens(formula))
@@ -37,12 +35,7 @@ object ArithmeticExpressionParser {
       case (left, "*" +: right) =>
         val parsedRight = parseProduct(right)
         (Mul(left, parsedRight._1), parsedRight._2)
-      case (left, right) =>
-        val parsedRight = Try(parseProduct(right))
-        if (parsedRight.isSuccess)
-          (Mul(left, parsedRight.get._1), parsedRight.get._2)
-        else
-          (left, right)
+      case (left, right) => (left, right)
     }
 
   private def parsePower(tokens: Vector[String]): (ArithmeticExpression, Vector[String]) =
@@ -62,6 +55,9 @@ object ArithmeticExpressionParser {
           case ")" +: afterParentheses => (parsedRight._1, afterParentheses)
           case _ => throw SyntaxErrorException("No closing parenthesis")
         }
+      case "-" +: right =>
+        val parsedRight = parseSum(right)
+        (Neg(parsedRight._1), parsedRight._2)
       case some +: right =>
         TokenType.charType(some.charAt(0)) match {
           case TokenType.Alphanumeric => (Var(some), right)

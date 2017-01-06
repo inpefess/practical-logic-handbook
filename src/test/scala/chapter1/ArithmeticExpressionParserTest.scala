@@ -17,12 +17,10 @@ class ArithmeticExpressionParserTest extends FunSuite {
     )
   }
   test("wrong input wont parse") {
-    assertThrows[SyntaxErrorException](ArithmeticExpressionParser.parse("x ++ 1"))
-  }
-  test("parse juxtaposition") {
-    assert(ArithmeticExpressionParser.parse("x y+2(z+1)") ==
-      Add(Mul(Var("x"),Var("y")),Mul(Const(2),Add(Var("z"),Const(1))))
-    )
+    Try(ArithmeticExpressionParser.parse("x ++ 1")) match {
+      case Success(_) => fail()
+      case Failure(e) => assert(e.getMessage == "Syntax error")
+    }
   }
   test("parse power") {
     assert(ArithmeticExpressionParser.parse("x ^ y ^ z") == ArithmeticExpressionParser.parse("x ^ (y ^ z)"))
@@ -45,5 +43,20 @@ class ArithmeticExpressionParserTest extends FunSuite {
       case Success(_) => fail()
       case Failure(e) => assert(e.getMessage == "No closing parenthesis")
     }
+  }
+  test("unexpected end of input") {
+    Try(ArithmeticExpressionParser.parse("x - - - ")) match {
+      case Success(_) => fail()
+      case Failure(e) => assert(e.getMessage == "Unexpected end of input")
+    }
+  }
+  test("wrong atom") {
+    Try(ArithmeticExpressionParser.parse("$ - $")) match {
+      case Success(_) => fail()
+      case Failure(e) => assert(e.getMessage == "Syntax error")
+    }
+  }
+  test("parse negation") {
+    assert(ArithmeticExpressionParser.parse("x - - - x") == Sub(Var("x"), Neg(Neg(Var("x")))))
   }
 }

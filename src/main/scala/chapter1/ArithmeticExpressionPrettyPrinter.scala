@@ -2,6 +2,10 @@ package chapter1
 
 object ArithmeticExpressionPrettyPrinter {
   def prettyPrint(expression: ArithmeticExpression, precedenceLevel: Int): String = expression match {
+    case Neg(expr) =>
+      if (precedenceLevel <= 4)
+        "-" + prettyPrint(expr, 5)
+      else "(-" + prettyPrint(expr, 5) + ")"
     case Pow(base, exponent) =>
       if (precedenceLevel <= 3)
         prettyPrint(base, 4) + " ^ " + prettyPrint(exponent, 3)

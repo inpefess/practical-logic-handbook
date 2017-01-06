@@ -10,6 +10,7 @@ sealed trait ArithmeticExpression {
       case Add(a, b) => Add(a.substituteVariables(variables), b.substituteVariables(variables))
       case Pow(a, b) => Pow(a.substituteVariables(variables), b.substituteVariables(variables))
       case Sub(a, b) => Sub(a.substituteVariables(variables), b.substituteVariables(variables))
+      case Neg(a) => Neg(a.substituteVariables(variables))
       case Var(name) =>
         variables.get(name) match {
           case Some(const) => Const(const)
@@ -25,7 +26,9 @@ sealed trait ArithmeticExpression {
     case Add(left, right) => Add(left.simplify, right.simplify).simplifyStep
     case Pow(base, exponent) => Pow(base.simplify, exponent.simplify).simplifyStep
     case Sub(subtrahend, minuend) => Sub(subtrahend.simplify, minuend.simplify).simplifyStep
-    case _ => this
+    case Neg(expression) => Neg(expression.simplify).simplifyStep
+    case Const(_) => this
+    case Var(_) => this
   }
 
   protected def simplifyStep: ArithmeticExpression = this match {
@@ -49,6 +52,10 @@ sealed trait ArithmeticExpression {
     case Pow(Const(0), _) => Const(0)
     case Pow(expr, Const(1)) => expr
     case Pow(Const(1), _) => Const(1)
+    case Neg(Const(a)) => Const(-a)
+    case Neg(Neg(expr)) => expr
+    case Neg(Add(a, b)) => Add(Neg(a), Neg(b))
+    case Neg(Sub(a, b)) => Add(Neg(a), b)
     case _ => this
   }
 }
@@ -56,6 +63,8 @@ sealed trait ArithmeticExpression {
 case class Const(value: Int) extends ArithmeticExpression
 
 case class Var(name: String) extends ArithmeticExpression
+
+case class Neg(expression: ArithmeticExpression) extends ArithmeticExpression
 
 case class Add(left: ArithmeticExpression, right: ArithmeticExpression) extends ArithmeticExpression
 
