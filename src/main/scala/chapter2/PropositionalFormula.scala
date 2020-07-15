@@ -21,7 +21,7 @@ sealed trait PropositionalFormula {
     !Not(this).isSatisfiable
   }
   private lazy val onAllValuations: Iterator[Boolean] = {
-    atoms.subsets.map(atomsSubset => eval(atomsSubset.contains))
+    atoms.subsets().map(atomsSubset => eval(atomsSubset.contains))
   }
 
   def eval(valuation: Valuation): Boolean = {

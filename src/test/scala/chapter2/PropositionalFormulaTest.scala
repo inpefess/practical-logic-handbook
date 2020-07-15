@@ -1,8 +1,8 @@
 package chapter2
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class PropositionalFormulaTest extends FunSuite {
+class PropositionalFormulaTest extends AnyFunSuite {
   test("someImportantTautologies") {
     val p = Atom("p")
     val q = Atom("q")

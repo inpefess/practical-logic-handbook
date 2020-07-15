@@ -1,8 +1,8 @@
 package chapter1
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ArithmeticExpressionTest extends FunSuite {
+class ArithmeticExpressionTest extends AnyFunSuite {
   test("partlyEvaluate") {
     assert(Sub(Pow(Add(Mul(Neg(Const(2)), Var("x")), Var("y")), Const(3)), Var("z"))
       .partlyEvaluate(Map("x" -> -3, "y" -> 4)) == Sub(Const(1000), Var("z")))

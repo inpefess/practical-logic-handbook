@@ -1,8 +1,8 @@
 package chapter1
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class ArithmeticExpressionPrettyPrinterTest extends FunSuite {
+class ArithmeticExpressionPrettyPrinterTest extends AnyFunSuite {
   test("test PrettyPrint 1") {
     assert(
       ArithmeticExpressionPrettyPrinter.prettyPrint(
