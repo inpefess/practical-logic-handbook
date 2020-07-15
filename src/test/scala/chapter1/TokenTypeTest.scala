@@ -1,10 +1,10 @@
 package chapter1
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.{Failure, Success, Try}
 
-class TokenTypeTest extends FunSuite {
+class TokenTypeTest extends AnyFunSuite {
   test("testCharType") {
     assert(TokenType.charType('+') == TokenType.Symbolic)
     assert(TokenType.charType('1') == TokenType.Numeric)

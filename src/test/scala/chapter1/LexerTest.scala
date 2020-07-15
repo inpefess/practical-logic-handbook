@@ -1,8 +1,9 @@
 package chapter1
 
-import org.scalatest.{BeforeAndAfter, FunSuite}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
-class LexerTest extends FunSuite with BeforeAndAfter {
+class LexerTest extends AnyFunSuite with BeforeAndAfter {
   test("tokenize simple math") {
     assert(
       Lexer.toTokens("2*((var_1 + x’) + 11) ") ==

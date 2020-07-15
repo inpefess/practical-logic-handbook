@@ -1,10 +1,10 @@
 package chapter1
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.util.{Failure, Success, Try}
 
-class ArithmeticExpressionParserTest extends FunSuite {
+class ArithmeticExpressionParserTest extends AnyFunSuite {
   test("parse simple sum") {
     assert(ArithmeticExpressionParser.parse("x + 1") == Add(Var("x"), Const(1)))
   }
